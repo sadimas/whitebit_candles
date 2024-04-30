@@ -15,27 +15,31 @@ class CandleRepository implements CandleProvider {
 
   @override
   Stream<List<CandleData>> getCandleData() async* {
-    var streamController = StreamController<List<CandleData>>();
-    final response = await dio.get(AppConst.apiWhitebit);
-    final data = response.data as Map<String, dynamic>;
-    final dataResult = data['result'] as List<dynamic>;
-    List<CandleData> listCandles = [];
+    try {
+      var streamController = StreamController<List<CandleData>>();
+      final response = await dio.get(AppConst.apiWhitebit);
+      final data = response.data as Map<String, dynamic>;
+      final dataResult = data['result'] as List<dynamic>;
+      List<CandleData> listCandles = [];
 
-    listCandles = dataResult.map((e) {
-      return CandleData(
-        amount: double.tryParse(e[6]),
-        close: double.tryParse(e[2]),
-        high: double.tryParse(e[3]),
-        low: double.tryParse(e[4]),
-        open: double.tryParse(e[1]),
-        vol: double.tryParse(e[5]),
-        timestampMillis: e[0],
-      );
-    }).toList();
+      listCandles = dataResult.map((e) {
+        return CandleData(
+          amount: double.tryParse(e[6]),
+          close: double.tryParse(e[2]),
+          high: double.tryParse(e[3]),
+          low: double.tryParse(e[4]),
+          open: double.tryParse(e[1]),
+          vol: double.tryParse(e[5]),
+          timestampMillis: e[0],
+        );
+      }).toList();
 
-    streamController.add(listCandles);
+      streamController.add(listCandles);
 
-    yield* streamController.stream;
+      yield* streamController.stream;
+    } on Exception catch (e) {
+      print(e.toString());
+    }
   }
 
   @override

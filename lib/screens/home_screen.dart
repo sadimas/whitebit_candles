@@ -28,9 +28,18 @@ class _MyHomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text(widget.title), centerTitle: true),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+        centerTitle: true,
+      ),
       body: StreamBuilder(
           stream: GetIt.I<CandleProvider>().getCandleData(),
           builder: (context, snapshot) {
@@ -49,22 +58,27 @@ class _MyHomeScreenState extends State<HomeScreen> {
                     )
                     .toList();
               }
+
+              return SfCartesianChart(
+                  primaryXAxis: const CategoryAxis(),
+                  primaryYAxis: const NumericAxis(minimum: 57000, maximum: 63000, interval: 500),
+                  tooltipBehavior: _tooltip,
+                  series: <CartesianSeries<_ChartData, String>>[
+                    CandleSeries<_ChartData, String>(
+                      dataSource: data,
+                      xValueMapper: (_ChartData data, _) => data.x,
+                      highValueMapper: (_ChartData data, _) => data.high,
+                      lowValueMapper: (_ChartData data, _) => data.low,
+                      openValueMapper: (_ChartData data, _) => data.open,
+                      closeValueMapper: (_ChartData data, _) => data.close,
+                      name: 'BTC/USDT',
+                    )
+                  ]);
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
-            return SfCartesianChart(
-                primaryXAxis: const CategoryAxis(),
-                primaryYAxis: const NumericAxis(minimum: 57000, maximum: 63000, interval: 500),
-                tooltipBehavior: _tooltip,
-                series: <CartesianSeries<_ChartData, String>>[
-                  CandleSeries<_ChartData, String>(
-                    dataSource: data,
-                    xValueMapper: (_ChartData data, _) => data.x,
-                    highValueMapper: (_ChartData data, _) => data.high,
-                    lowValueMapper: (_ChartData data, _) => data.low,
-                    openValueMapper: (_ChartData data, _) => data.open,
-                    closeValueMapper: (_ChartData data, _) => data.close,
-                    name: 'BTC/USDT',
-                  )
-                ]);
           }),
     );
   }
