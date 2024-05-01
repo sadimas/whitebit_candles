@@ -64,9 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 final List<double> maxList = data.map((e) => e.high).toList();
                 minList.sort();
                 maxList.sort();
-                min = minList.first - 500;
-                max = maxList.last + 500;
-                
+                min = minList.first;
+                max = maxList.last;
+                min = (min ~/ 100) * 100 - 500;
+                max = (max ~/ 100) * 100 + 500;
               }
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     plotAreaBackgroundColor: Colors.black.withOpacity(.2),
                     borderColor: Colors.black,
                     primaryXAxis: const CategoryAxis(),
-                    primaryYAxis: NumericAxis(minimum: min, maximum: max, interval: 250),
+                    primaryYAxis: NumericAxis(minimum: min, maximum: max, interval: 500),
                     tooltipBehavior: _tooltip,
                     series: <CartesianSeries<_ChartData, String>>[
                       CandleSeries<_ChartData, String>(
