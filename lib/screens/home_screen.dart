@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-          stream: GetIt.I<CandleProvider>().getCandleData(),
+          stream: _streamCandleData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _candleList = snapshot.data;
@@ -86,6 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
     );
   }
+
+  Stream<List<CandleData>> _streamCandleData() => GetIt.I<CandleProvider>().getCandleData();
 }
 
 class _ChartData {
