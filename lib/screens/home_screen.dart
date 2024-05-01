@@ -19,10 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
   List<CandleData>? _candleList;
   late List<_ChartData> data;
   late TooltipBehavior _tooltip;
-
+  late double min;
+  late double max;
   @override
   void initState() {
     data = [];
+    min = 0;
+    max = 100000;
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -57,6 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )
                     .toList();
+                final List<double> minList = data.map((e) => e.low).toList();
+                final List<double> maxList = data.map((e) => e.high).toList();
+                minList.sort();
+                maxList.sort();
+                min = minList.first - 500;
+                max = maxList.last + 500;
+                
               }
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -64,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     plotAreaBackgroundColor: Colors.black.withOpacity(.2),
                     borderColor: Colors.black,
                     primaryXAxis: const CategoryAxis(),
-                    primaryYAxis: const NumericAxis(minimum: 57000, maximum: 63000, interval: 500),
+                    primaryYAxis: NumericAxis(minimum: min, maximum: max, interval: 250),
                     tooltipBehavior: _tooltip,
                     series: <CartesianSeries<_ChartData, String>>[
                       CandleSeries<_ChartData, String>(
