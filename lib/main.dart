@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:whitebit_app/constants/constants.dart';
 import 'package:whitebit_app/repositories/candle_repository.dart';
 import 'repositories/abstract_repository.dart';
 import 'screens/home_screen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(title: 'Candles Whitebit BTC/USDT 15m'),
+      home: const HomeScreen(title: AppConst.appbarTitle),
     );
   }
 }

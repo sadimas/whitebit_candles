@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:whitebit_app/constants/constants.dart';
 import 'package:whitebit_app/models/candle_model.dart';
 
 import '../repositories/abstract_repository.dart';
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         lowValueMapper: (_ChartData data, _) => data.low,
                         openValueMapper: (_ChartData data, _) => data.open,
                         closeValueMapper: (_ChartData data, _) => data.close,
-                        name: 'BTC/USDT',
+                        name: AppConst.candlesPair,
                       )
                     ]),
               );
